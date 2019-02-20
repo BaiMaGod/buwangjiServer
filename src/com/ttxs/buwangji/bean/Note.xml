@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ttxs.buwangji.dao.NoteDao">
+    
+    <select id="findNoteById" parameterType="String" resultType="Note">
+        select * from note where id = #{id}
+    </select>
+    <select id="findNoteByName" parameterType="String" resultMap="noteList">
+        select * from note where name like #{name}
+    </select>
+    <select id="findStatusCodeByNumber" parameterType="String" resultType="HashMap">
+        select id,status from note where number = #{number}
+    </select>
+    
+    
+    <select id="findAllNoteByNumber" parameterType="String" resultMap="noteList">
+        select * from note where userNumber = #{number}
+    </select>
+
+    
+    <insert id="add" parameterType="List" useGeneratedKeys="true" keyProperty="id">
+    	insert into 
+    				note(id,userNumber,filePath,title,createTime,updateTime,status) 
+    		values
+    		<foreach collection="list" item="item" index="index" separator=",">
+    				(#{item.id},#{item.userNumber},#{item.filePath},#{item.title},
+    				#{item.createTime},#{item.updateTime},#{item.status})
+    		</foreach>	  
+    </insert>
+    <update id="update" parameterType="List">
+   		<foreach collection="list" item="item" index="index" separator=";">
+	    	update note
+	    	<trim prefix="set" suffixOverrides=",">
+	    		<if test="userNumber != null">userNumber = #{userNumber},</if>
+	    		<if test="filePath != null">filePath = #{filePath},</if>
+	    		<if test="title != null">title = #{title},</if>
+	    		<if test="createTime != null">createTime = #{createTime},</if>
+	    		<if test="updateTime != null">updateTime = #{updateTime}</if>
+	    		<if test="status != null">status = #{status}</if>
+	    	</trim>
+	    	where id = #{id}
+    	</foreach>
+    </update>
+    <delete id="delete" parameterType="List">
+        delete from note where id in
+        <foreach collection="list" item="id" open="('separator=',' close=')" >
+    		 #{id}
+    	</foreach>	 
+    </delete>
+   	
+   	<resultMap type="Note" id="noteList">
+        <id column="id" property="id" />
+        <result column="userNumber" property="userNumber" />
+        <result column="filePath" property="filePath" />
+        <result column="title" property="title" />
+        <result column="createTime" property="createTime" />
+        <result column="updateTime" property="updateTime" />
+        <result column="status" property="status" />
+	</resultMap>
+</mapper>

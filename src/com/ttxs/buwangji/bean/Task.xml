@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ttxs.buwangji.dao.TaskDao">
+    
+    <select id="findTaskById" parameterType="String" resultType="Task">
+        select * from task where id = #{id}
+    </select>
+    <select id="findTaskByName" parameterType="String" resultMap="taskList">
+        select * from task where name like #{name}
+    </select>
+    <select id="findStatusCodeByNumber" parameterType="String" resultType="HashMap">
+        select id,status from task where number = #{number}
+    </select>
+    
+    
+    <select id="findAllMyTaskByNumber" parameterType="String" resultMap="taskList">
+        select * from task where receiverNumber = #{number} or (creatorNumber = #{number} and receiverNumber = "own") 
+    </select>
+    <select id="findAllSendTaskByNumber" parameterType="String" resultMap="taskList">
+        select * from task where creatorNumber = #{number} and receiverNumber != "own"
+    </select>
+    <select id="findAllReceiverTaskByNumber" parameterType="String" resultMap="taskList">
+        select * from task where receiverNumber = #{number}
+    </select>
+    <select id="findAllOwnTaskByNumber" parameterType="String" resultMap="taskList">
+        select * from task where creatorNumber = #{number} and receiverNumber = "own"
+    </select>
+    <select id="findAllCreateTaskByNumber" parameterType="String" resultMap="taskList">
+        select * from task where creatorNumber = #{number}
+    </select>
+
+    
+    <insert id="add" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+    	insert into 
+    				user(id,creatorNumber,receiverNumber,filePath,title,level,
+    				createTime,updateTime,endTime,clockTime,finishTime，origin,status) 
+    		values
+    		<foreach collection="list" item="item" index="index" separator=",">
+    				(#{item.id},#{item.creatorNumber},#{item.receiverNumber},#{item.filePath},#{item.title},#{item.level},
+    				#{item.createTime},#{item.updateTime},#{item.endTime},#{item.clockTime},#{item.finishTime},
+    				#{item.origin},#{item.status})
+    		</foreach>	  
+    </insert>
+    <update id="update" parameterType="java.util.List">
+   		<foreach collection="list" item="item" index="index" separator=";">
+	    	update task
+	    	<trim prefix="set" suffixOverrides=",">
+	    		<if test="creatorNumber != null">creatorNumber = #{creatorNumber},</if>
+	    		<if test="receiverNumber != null">receiverNumber = #{receiverNumber},</if>
+	    		<if test="filePath != null">filePath = #{filePath},</if>
+	    		<if test="title != null">title = #{title},</if>
+	    		<if test="level != null">level = #{level},</if>
+	    		<if test="createTime != null">createTime = #{createTime},</if>
+	    		<if test="updateTime != null">updateTime = #{updateTime}</if>
+	    		<if test="endTime != null">endTime = #{endTime}</if>
+	    		<if test="clockTime != null">clockTime = #{clockTime}</if>
+	    		<if test="finishTime != null">FinishTime = #{finishTime}</if>
+	    		<if test="origin != null">origin = #{origin}</if>
+	    		<if test="status != null">status = #{status}</if>
+	    	</trim>
+	    	where id = #{id}
+    	</foreach>
+    </update>
+    <delete id="delete" parameterType="java.util.List">
+        delete from task where id in
+        <foreach collection="list" item="id" open="('separator=',' close=')" >
+    		 #{id}
+    	</foreach>	 
+    </delete>
+    
+    <resultMap type="Task" id="taskList">
+        <id column="id" property="id" />
+        <result column="creatorNumber" property="creatorNumber" />
+        <result column="receiverNumber" property="receiverNumber" />
+        <result column="filePath" property="filePath" />
+        <result column="title" property="title" />
+        <result column="level" property="level" />
+        <result column="createTime" property="createTime" />
+        <result column="updateTime" property="updateTime" />
+        <result column="endTime" property="endTime" />
+        <result column="clockTime" property="clockTime" />
+        <result column="finishTime" property="finishTime" />
+        <result column="origin" property="origin" />
+        <result column="status" property="status" />
+	</resultMap>
+</mapper>

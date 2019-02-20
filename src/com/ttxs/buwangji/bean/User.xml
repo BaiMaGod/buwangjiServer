@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ttxs.buwangji.dao.UserDao">
+    <select id="findAll" parameterType="String" resultMap="userList">
+        select * from user
+    </select>
+    
+    <select id="findUserById" parameterType="String" resultType="User">
+        select * from user where id = #{id}
+    </select>
+    <select id="findUserByName" parameterType="String" resultMap="userList">
+        select * from user where name like #{name}
+    </select>
+    <select id="findUserByNumber" parameterType="String" resultType="User">
+        select * from user where number = #{number}
+    </select>
+    
+    <select id="findPasswordByNumber" parameterType="String" resultType="String">
+        select password from user where number = #{number}
+    </select>
+    
+    
+    
+    <insert id="add" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+    	insert into user(id,number,name,password,createTime,loginTime,tel,vip) 
+    			  values(#{id},#{number},#{name},#{password},#{createTime},#{loginTime},#{tel},#{vip})
+    </insert>
+    <update id="update" parameterType="User">
+    	update user
+    	<trim prefix="set" suffixOverrides=",">
+    		<if test="number != null">number=#{number},</if>
+    		<if test="name != null">name=#{name},</if>
+    		<if test="password != null">password=#{password},</if>
+    		<if test="headImage != null">headImage=#{headImage},</if>
+    		<if test="loginTime != null">loginTime=#{loginTime},</if>
+    		<if test="tel != null">tel=#{tel},</if>
+    		<if test="vip != null">vip=#{vip}</if>
+    	</trim>
+    	where number=#{id}
+    </update>
+    <delete id="delete" parameterType="String">
+        delete from user where number=#{number}
+    </delete>
+    
+    <resultMap type="User" id="userList">
+        <id column="id" property="id" />
+        <result column="number" property="number" />
+        <result column="name" property="name" />
+        <result column="password" property="password" />
+        <result column="createTime" property="createTime" />
+        <result column="loginTime" property="loginTime" />
+        <result column="tel" property="tel" />
+        <result column="vip" property="vip" />
+	</resultMap>
+</mapper>

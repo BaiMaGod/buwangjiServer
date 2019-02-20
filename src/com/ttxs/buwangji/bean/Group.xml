@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ttxs.buwangji.dao.GroupDao">
+    
+    <select id="findGroupById" parameterType="String" resultType="Group">
+        select * from group where id = #{id}
+    </select>
+    <select id="findGroupByNumber" parameterType="String" resultMap="groupList">
+        select * from group where number = #{number}
+    </select>
+    <select id="findGroupByName" parameterType="String" resultMap="groupList">
+        select * from group where name like #{name}
+    </select>
+    
+    
+    <insert id="add" parameterType="Group" useGeneratedKeys="true" keyProperty="id">
+    	insert into 
+    			group(id,userNumber,parentGroupId,groupName,createTime,updateTime) 
+    		values
+    		<foreach collection="list" item="item" index="index" separator=",">
+    			(#{id},#{userNumber},#{parentGroupId},#{groupName},#{createTime},#{updateTime})
+    		</foreach>
+    </insert>
+    <update id="update" parameterType="Group">
+    	<foreach collection="list" item="item" index="index" separator=";">
+	    	update group
+	    	<trim prefix="set" suffixOverrides=",">
+	    		<if test="userNumber != null">userNumber=#{userNumber},</if>
+	    		<if test="parentGroupId != null">parentGroupId=#{parentGroupId},</if>
+	    		<if test="groupName != null">groupName=#{groupName},</if>
+	    		<if test="updateTime != null">updateTime=#{updateTime},</if>
+	    	</trim>
+	    	where id=#{id}
+	    </foreach>
+    </update>
+    <delete id="delete" parameterType="java.util.List">
+        delete from group where id in
+        <foreach collection="list" item="id" open="('separator=',' close=')" >
+    		 #{id}
+    	</foreach>	 
+    </delete>
+    
+    <resultMap type="Group" id="groupList">
+        <id column="id" property="id" />
+        <result column="userNumber" property="userNumber" />
+        <result column="parentGroupId" property="parentGroupId" />
+        <result column="groupName" property="groupName" />
+        <result column="createTime" property="createTime" />
+        <result column="updateTime" property="updateTime" />
+	</resultMap>
+</mapper>
