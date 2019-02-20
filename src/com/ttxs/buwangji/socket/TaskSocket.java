@@ -15,6 +15,8 @@ import java.net.Socket;
 import com.ttxs.buwangji.exception.ServiceException;
 import com.ttxs.buwangji.service.TaskService;
 import com.ttxs.buwangji.service.TaskServiceImpl;
+import com.ttxs.buwangji.service.TeamService;
+import com.ttxs.buwangji.service.TeamServiceImpl;
 
 import net.sf.json.JSONObject;
 
@@ -37,6 +39,7 @@ public class TaskSocket {
 	private Socket taskSocket;
 	//
 	TaskService taskService = new TaskServiceImpl();
+	TeamService teamService = new TeamServiceImpl();
 	
 	public TaskSocket() {
 		try {
@@ -94,50 +97,29 @@ public class TaskSocket {
 					boolean isSuccess = false ;
 					//获取JSON对象中handle对应的值，表示客户端请求的操作类型
 					switch (jsonObject.getString("handle")) {
-					//客户端给别人发任务
-					case "send":
-						isSuccess = taskService.send(jsonObject);
-						jObject = new JSONObject();
-						jObject.put("handle", "send");
-						jObject.put("uuid", jsonObject.getString("uuid"));
-						jObject.put("isSuccess", isSuccess);
-						bWriter.write(jObject.toString()+"\n");
-						bWriter.flush();
-						break;
-					//客户端每创建一个任务，就上传到服务端
-					case "add":
-						isSuccess = taskService.add(jsonObject);
-						jObject = new JSONObject();
-						jObject.put("handle", "add");
-						jObject.put("uuid", jsonObject.getString("uuid"));
-						jObject.put("isSuccess", isSuccess);
-						bWriter.write(jObject.toString()+"\n");
-						bWriter.flush();
-						break;
-					//任务修改	
-					case "update":
-						isSuccess = taskService.update(jsonObject);
-						jObject = new JSONObject();
-						jObject.put("handle", "update");
-						jObject.put("uuid", jsonObject.getString("uuid"));
-						jObject.put("isSuccess", isSuccess);
-						bWriter.write(jObject.toString()+"\n");
-						bWriter.flush();
-						break;
-					//任务删除	
-					case "delete":
-						isSuccess = taskService.delete(jsonObject);
-						jObject = new JSONObject();
-						jObject.put("handle", "delete");
-						jObject.put("uuid", jsonObject.getString("uuid"));
-						jObject.put("isSuccess", isSuccess);
-						bWriter.write(jObject.toString()+"\n");
-						bWriter.flush();
-						break;
 					//任务同步
 					case "sync":
 						jObject  = taskService.sync(jsonObject);
 						jObject.put("handle", "sync");
+						jObject.put("uuid", jsonObject.getString("uuid"));
+						bWriter.write(jObject.toString()+"\n");
+						bWriter.flush();
+						break;
+					//客户端每创建一个任务，就上传到服务端
+					case "addTask":
+						isSuccess = taskService.add(jsonObject);
+						jObject = new JSONObject();
+						jObject.put("handle", "addTask");
+						jObject.put("uuid", jsonObject.getString("uuid"));
+						jObject.put("isSuccess", isSuccess);
+						bWriter.write(jObject.toString()+"\n");
+						bWriter.flush();
+						break;
+					//客户端给Team发任务
+					case "sendTask":
+						isSuccess = taskService.send(jsonObject);
+						jObject = new JSONObject();
+						jObject.put("handle", "sendTask");
 						jObject.put("uuid", jsonObject.getString("uuid"));
 						jObject.put("isSuccess", isSuccess);
 						bWriter.write(jObject.toString()+"\n");
@@ -147,7 +129,82 @@ public class TaskSocket {
 					case "findTask":
 						jObject = taskService.findTask(jObject);
 						jObject = new JSONObject();
-						jObject.put("handle", "findPage");
+						jObject.put("handle", "findTask");
+						jObject.put("uuid", jsonObject.getString("uuid"));
+						bWriter.write(jObject.toString()+"\n");
+						bWriter.flush();
+						break;
+					//任务修改	
+					case "updateTask":
+						isSuccess = taskService.update(jsonObject);
+						jObject = new JSONObject();
+						jObject.put("handle", "updateTask");
+						jObject.put("uuid", jsonObject.getString("uuid"));
+						jObject.put("isSuccess", isSuccess);
+						bWriter.write(jObject.toString()+"\n");
+						bWriter.flush();
+						break;
+					//任务删除	
+					case "deleteTask":
+						isSuccess = taskService.delete(jsonObject);
+						jObject = new JSONObject();
+						jObject.put("handle", "deleteTask");
+						jObject.put("uuid", jsonObject.getString("uuid"));
+						jObject.put("isSuccess", isSuccess);
+						bWriter.write(jObject.toString()+"\n");
+						bWriter.flush();
+						break;
+					//新增Team	
+					case "addTeam":
+						isSuccess = teamService.add(jsonObject);
+						jObject = new JSONObject();
+						jObject.put("handle", "addTeam");
+						jObject.put("uuid", jsonObject.getString("uuid"));
+						jObject.put("isSuccess", isSuccess);
+						bWriter.write(jObject.toString()+"\n");
+						bWriter.flush();
+						break;
+					//修改Team信息	
+					case "updateTeamName":
+						isSuccess = teamService.updateName(jsonObject);
+						jObject = new JSONObject();
+						jObject.put("handle", "updateTeamName");
+						jObject.put("uuid", jsonObject.getString("uuid"));
+						jObject.put("isSuccess", isSuccess);
+						bWriter.write(jObject.toString()+"\n");
+						bWriter.flush();
+						break;
+					//删除Team
+					case "deleteTeam":
+						isSuccess = teamService.delete(jsonObject);
+						jObject = new JSONObject();
+						jObject.put("handle", "deleteTeam");
+						jObject.put("uuid", jsonObject.getString("uuid"));
+						jObject.put("isSuccess", isSuccess);
+						bWriter.write(jObject.toString()+"\n");
+						bWriter.flush();
+						break;
+					//查询Team
+					case "findTeam":
+						jObject = teamService.findTeamById(jsonObject);
+						jObject.put("handle", "findTeam");
+						jObject.put("uuid", jsonObject.getString("uuid"));
+						bWriter.write(jObject.toString()+"\n");
+						bWriter.flush();
+						break;
+					//退出Team
+					case "exitTeam":
+						isSuccess = teamService.exitTeam(jsonObject);
+						jObject.put("handle", "exitTeam");
+						jObject.put("uuid", jsonObject.getString("uuid"));
+						jObject.put("isSuccess", isSuccess);
+						bWriter.write(jObject.toString()+"\n");
+						bWriter.flush();
+						break;
+					//屏蔽Team任务
+					case "screenTeam":
+						isSuccess = teamService.screenTeam(jsonObject);
+						jObject.put("handle", "screenTeam");
 						jObject.put("uuid", jsonObject.getString("uuid"));
 						jObject.put("isSuccess", isSuccess);
 						bWriter.write(jObject.toString()+"\n");

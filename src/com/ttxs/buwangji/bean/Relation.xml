@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ttxs.buwangji.dao.UserDao">
+    
+    <select id="findRelationByNumber" parameterType="String" resultType="relationList">
+        select * from relation where userNumber = #{number}
+    </select>
+    
+    
+    <insert id="add" parameterType="Relation" useGeneratedKeys="true" keyProperty="id">
+    	insert into relation(id,userNumber,teamId,nickName,status,createTime) 
+    			  values(#{id},#{userNumber},#{teamId},#{nickName},#{status},#{createTime})
+    </insert>
+    
+    <update id="updateNickName" parameterType="Relation">
+    	update relation set nickName = #{nickName} where id=#{teamId}
+    </update>
+    <update id="updateStatusRelationTo0" parameterType="Relation">
+    	update relation set status = 0 where userNumber=#{number} and teamId=#{teamId}
+    </update>
+    <update id="updateStatusRelationTo1" parameterType="Relation">
+    	update relation set status = 1 where userNumber=#{number} and teamId=#{teamId}
+    </update>
+    
+    <delete id="deleteRelation" parameterType="String">
+        delete from relation where userNumber=#{number} and teamId=#{teamId}
+    </delete>
+    <delete id="deletetAllRelation" parameterType="String">
+        delete from relation where teamId=#{teamId}
+    </delete>
+
+
+    <resultMap type="Relation" id="relationList">
+        <id column="id" property="id" />
+        <result column="userNumber" property="userNumber" />
+        <result column="teamId" property="teamId" />
+        <result column="nickName" property="nickName" />
+        <result column="status" property="status" />
+        <result column="createTime" property="createTime" />
+        <result column="updateTime" property="updateTime" />
+	</resultMap>
+</mapper>

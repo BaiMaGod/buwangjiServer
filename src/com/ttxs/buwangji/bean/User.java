@@ -10,8 +10,8 @@ package com.ttxs.buwangji.bean;
  */
 public class User {
 	private String id;
-	private String name;
 	private String number;
+	private String name;
 	private String password;
 	private String headImage;
 	private String createTime;

@@ -8,21 +8,37 @@ package com.ttxs.buwangji.bean;
  * @author Administrator
  *
  */
-public class Note {
+public class Team {
 	private String id;
-	private String userNumber;
-	private String groupId;
-	private String filePath;
-	private String title;
+	private String name;
+	private String teamImage;
+	private String leaderNumber;
 	private String createTime;
 	private String updateTime;
+	private String nickName;
 	private int status;
-	private int isSync;
 	private String arg1;
 	private String arg2;
 	private String arg3;
 	
 	
+	
+	public Team() {
+		super();
+	}
+	/**
+	 * @param id
+	 * @param name
+	 * @param leaderNumber
+	 * @param createTime
+	 */
+	public Team(String id, String name, String leaderNumber, String createTime) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.leaderNumber = leaderNumber;
+		this.createTime = createTime;
+	}
 	/**
 	 * @return the id
 	 */
@@ -36,40 +52,40 @@ public class Note {
 		this.id = id;
 	}
 	/**
-	 * @return the userId
+	 * @return the name
 	 */
-	public String getUserNumber() {
-		return userNumber;
+	public String getName() {
+		return name;
 	}
 	/**
-	 * @param userId the userId to set
+	 * @param name the name to set
 	 */
-	public void setUserNumber(String userNumber) {
-		this.userNumber = userNumber;
+	public void setName(String name) {
+		this.name = name;
 	}
 	/**
-	 * @return the fileName
+	 * @return the teamImage
 	 */
-	public String getFilePath() {
-		return filePath;
+	public String getTeamImage() {
+		return teamImage;
 	}
 	/**
-	 * @param fileName the fileName to set
+	 * @param teamImage the teamImage to set
 	 */
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
+	public void setTeamImage(String teamImage) {
+		this.teamImage = teamImage;
 	}
 	/**
-	 * @return the title
+	 * @return the leaderNumber
 	 */
-	public String getTitle() {
-		return title;
+	public String getLeaderNumber() {
+		return leaderNumber;
 	}
 	/**
-	 * @param title the title to set
+	 * @param leaderNumber the leaderNumber to set
 	 */
-	public void setTitle(String title) {
-		this.title = title;
+	public void setLeaderNumber(String leaderNumber) {
+		this.leaderNumber = leaderNumber;
 	}
 	/**
 	 * @return the createTime
@@ -144,29 +160,17 @@ public class Note {
 		this.status = status;
 	}
 	/**
-	 * @return the groupId
+	 * @return the nickName
 	 */
-	public String getGroupId() {
-		return groupId;
+	public String getNickName() {
+		return nickName;
 	}
 	/**
-	 * @param groupId the groupId to set
+	 * @param nickName the nickName to set
 	 */
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
-	/**
-	 * @return the isSync
-	 */
-	public int getIsSync() {
-		return isSync;
-	}
-	/**
-	 * @param isSync the isSync to set
-	 */
-	public void setIsSync(int isSync) {
-		this.isSync = isSync;
-	}
-	
+
 	
 }

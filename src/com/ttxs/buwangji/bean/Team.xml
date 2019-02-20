@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ttxs.buwangji.dao.UserDao">
+    
+    <select id="findTeamById" parameterType="String" resultType="Team">
+        select * from team where id = #{teamId}
+    </select>
+    <select id="findTeamByNumber" parameterType="String" resultType="teamList">
+        select  from team where userNumber = #{number}
+    </select>
+    
+    
+    <insert id="add" parameterType="Team" useGeneratedKeys="true" keyProperty="id">
+    	insert into team(id,name,leaderNumber,createTime,updateTime) 
+    			  values(#{id},#{name},#{leaderNumber},#{createTime},#{loginTime})
+    </insert>
+    <update id="updateName" parameterType="String">
+    	update team set name = #{name} where id=#{teamId}
+    </update>
+    <delete id="delete" parameterType="String">
+        delete from team where id=#{teamId}
+    </delete>
+   
+
+
+    <resultMap type="Team" id="teamList">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="leaderNumber" property="leaderNumber" />
+        <result column="createTime" property="createTime" />
+        <result column="updateTime" property="updateTime" />
+	</resultMap>
+</mapper>

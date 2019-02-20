@@ -16,7 +16,6 @@ public class UserTask {
 	private int finishDays;
 	private int issueCount;
 	private String updateTime;
-	private String taskPath;
 	private String arg1;
 	private String arg2;
 	private String arg3;
@@ -142,18 +141,6 @@ public class UserTask {
 	 */
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
-	}
-	/**
-	 * @return the taskPath
-	 */
-	public String getTaskPath() {
-		return taskPath;
-	}
-	/**
-	 * @param taskPath the taskPath to set
-	 */
-	public void setTaskPath(String taskPath) {
-		this.taskPath = taskPath;
 	}
 	
 	
