@@ -103,7 +103,6 @@ public class TaskServiceImpl implements TaskService {
 			String content = jObject.getString("content");
 			String endTime = jObject.getString("endTime");
 			String clockTime = jObject.getString("clockTime");
-			int level = jObject.getInt("level");
 			
 			task = new Task();
 			task.setId(id);
@@ -115,6 +114,10 @@ public class TaskServiceImpl implements TaskService {
 			}
 			if(clockTime != null) {
 				task.setClockTime(clockTime);
+			}
+			if(jObject.containsKey("level")) {
+				int level = jObject.getInt("level");
+				task.setLevel(level);
 			}
 			if(content != null) {
 				String filePath = taskDao.findFilePathById(id);

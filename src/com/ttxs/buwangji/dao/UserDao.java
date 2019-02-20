@@ -25,4 +25,10 @@ public interface UserDao {
 	int add(User user);
 	int update(User user);
 	int delete(String number);
+
+	void updateLoginTime(String number, String loginTime);
+
+	int updateNumber(String number, String newNumber);
+
+	int updatePassword(String number, String password);
 }

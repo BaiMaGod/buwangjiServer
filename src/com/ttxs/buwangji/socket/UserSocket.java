@@ -27,7 +27,7 @@ public class UserSocket {
 	//监听的端口号
 	public static final int PORT = 8880;
 	/**
-	 * 监听用户 基本请求 的套接字
+	 * 监听用户 连接请求 的套接字
 	 */
 	public static ServerSocket userListenSocket;
 	/**
@@ -40,6 +40,7 @@ public class UserSocket {
 	
 	public UserSocket() {
 		try {
+			//实例化ServerSocket
 			userListenSocket = new ServerSocket(PORT);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -95,9 +96,8 @@ public class UserSocket {
 				switch (jsonObject.getString("handle")) {
 				//登录操作
 				case "login":
-					isSuccess = userService.login(jsonObject);
+					jObject = userService.login(jsonObject);
 					//将操作结果以json格式返回给客户端
-					jObject = new JSONObject();
 					jObject.put("handle", "login");
 					jObject.put("uuid", jsonObject.getString("uuid"));
 					jObject.put("isSuccess", isSuccess);
@@ -114,11 +114,31 @@ public class UserSocket {
 					bWriter.write(jObject.toString()+"\n");
 					bWriter.flush();
 					break;
-				//修改个人信息操作
+				//修改个人基本信息操作
 				case "update":
 					isSuccess = userService.update(jsonObject);
 					jObject = new JSONObject();
 					jObject.put("handle", "update");
+					jObject.put("uuid", jsonObject.getString("uuid"));
+					jObject.put("isSuccess", isSuccess);
+					bWriter.write(jObject.toString()+"\n");
+					bWriter.flush();
+					break;
+				//修改个人帐号
+				case "updateNumber":
+					isSuccess = userService.updateNumber(jsonObject);
+					jObject = new JSONObject();
+					jObject.put("handle", "updateNumber");
+					jObject.put("uuid", jsonObject.getString("uuid"));
+					jObject.put("isSuccess", isSuccess);
+					bWriter.write(jObject.toString()+"\n");
+					bWriter.flush();
+					break;
+				//修改密码
+				case "updatePassword":
+					isSuccess = userService.updatePassword(jsonObject);
+					jObject = new JSONObject();
+					jObject.put("handle", "updatePassword");
 					jObject.put("uuid", jsonObject.getString("uuid"));
 					jObject.put("isSuccess", isSuccess);
 					bWriter.write(jObject.toString()+"\n");

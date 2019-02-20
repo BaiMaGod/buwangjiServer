@@ -30,21 +30,22 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public boolean login(JSONObject jsonObject) {
-		String number = jsonObject.getString("name");
+	public JSONObject login(JSONObject jsonObject) {
+		String number = jsonObject.getString("number");
 		String password = jsonObject.getString("password");
 		if(number == null || password == null) {
-			return false;
+			return null;
 		}
-		
-		String realPsw = userDao.findPasswordByNumber(number);
-		session.close();
-		
-		if(Tools.md5(password).equals(realPsw)) {
-			return true;
+		//获取该账号的用户信息
+		User user = userDao.findUserByNumber(number);
+		//如果服务器数据库中没有该账号，或输入的密码与真实密码不一致，登陆失败
+		if(user!=null && Tools.md5(password).equals(user.getPassword())) {
+			user.setPassword(" ");
+			String now = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
+			userDao.updateLoginTime(number,now);
+			return JSONObject.fromObject(user);
 		}
-		
-		return false;
+		return null;
 	}
 
 	@Override
@@ -62,7 +63,6 @@ public class UserServiceImpl implements UserService {
 			User user = new User(Tools.getUUID(),name,number,Tools.md5(password),now,0);
 			
 			num = userDao.add(user);
-			session.close();
 		}catch (Exception e) {
 			e.printStackTrace();
 			new ServiceException("UserServiceImpl.register方法错误！");
@@ -78,23 +78,23 @@ public class UserServiceImpl implements UserService {
 	public boolean update(JSONObject jsonObject) throws ServiceException {
 		int num = 0; 
 		try {
-			
 			User user = new User();
-			user.setId(jsonObject.getString("number"));
-			if(jsonObject.getString("newNumber") !=null) {
-				user.setNumber(jsonObject.getString("newNumber"));
-			}
+			String number = jsonObject.getString("number");
+			user.setNumber(number);
+			
+			//用户要修改昵称
 			if(jsonObject.getString("name") !=null) {
 				user.setName(jsonObject.getString("name"));
 			}
-			if(jsonObject.getString("password") !=null) {
-				user.setPassword(jsonObject.getString("password"));
-			}
+			//用户要修改头像
 			if(jsonObject.getString("headImage") !=null) {
 				user.setHeadImage(jsonObject.getString("headImage"));
 			}
+			//用户要修改电话号码
+			if(jsonObject.getString("tel") !=null) {
+				user.setTel(jsonObject.getString("tel"));
+			}
 			num = userDao.update(user);
-			session.close();	
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -106,7 +106,54 @@ public class UserServiceImpl implements UserService {
 		}
 		return false;
 	}
-	
+
+	@Override
+	public boolean updateNumber(JSONObject jsonObject) throws ServiceException {
+		int num = 0; 
+		String number = jsonObject.getString("number");
+		//--------------------
+		/*
+		 给该账号对应的邮箱发送修改账号链接 
+		 */
+		//-----------------
+		
+		String newNumber = jsonObject.getString("newNumber");
+		num = userDao.updateNumber(number,newNumber);
+		
+//			new ServiceException("UserServiceImpl.update方法错误！");
+		
+		if(num > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updatePassword(JSONObject jsonObject) throws ServiceException {
+		String number = jsonObject.getString("number");
+		String type = jsonObject.getString("type");
+		int num = 0;
+		switch (type) {
+		case "1":
+			String realPassword = userDao.findPasswordByNumber(number);
+			String password = jsonObject.getString("password");
+			if(realPassword != null && password != null && realPassword.equals(Tools.md5(password))) {
+				String newPassword = jsonObject.getString("newPassword");
+				num = userDao.updatePassword(number,Tools.md5(newPassword));
+			}
+			
+			break;
+		case "2":
+			
+			break;
+		default:
+			break;
+		}
+		if(num > 0) {
+			return true;
+		}
+		return false;
+	}
 	
 
 }

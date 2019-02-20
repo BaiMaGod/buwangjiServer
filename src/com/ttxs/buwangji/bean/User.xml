@@ -30,15 +30,21 @@
     <update id="update" parameterType="User">
     	update user
     	<trim prefix="set" suffixOverrides=",">
-    		<if test="number != null">number=#{number},</if>
     		<if test="name != null">name=#{name},</if>
-    		<if test="password != null">password=#{password},</if>
     		<if test="headImage != null">headImage=#{headImage},</if>
     		<if test="loginTime != null">loginTime=#{loginTime},</if>
     		<if test="tel != null">tel=#{tel},</if>
-    		<if test="vip != null">vip=#{vip}</if>
     	</trim>
-    	where number=#{id}
+    	where number=#{number}
+    </update>
+    <update id="updateLoginTime" parameterType="String">
+    	update user set loginTime = #{loginTime} where number=#{number}
+    </update>
+    <update id="updateNumber" parameterType="String">
+    	update user set number = #{newNumber} where number=#{number}
+    </update>
+    <update id="updatePassword" parameterType="String">
+    	update user set password = #{password} where number=#{number}
     </update>
     <delete id="delete" parameterType="String">
         delete from user where number=#{number}

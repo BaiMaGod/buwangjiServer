@@ -105,10 +105,10 @@ public class TaskSocket {
 						bWriter.flush();
 						break;
 					//客户端每创建一个任务，就上传到服务端
-					case "upload":
+					case "add":
 						isSuccess = taskService.add(jsonObject);
 						jObject = new JSONObject();
-						jObject.put("handle", "upload");
+						jObject.put("handle", "add");
 						jObject.put("uuid", jsonObject.getString("uuid"));
 						jObject.put("isSuccess", isSuccess);
 						bWriter.write(jObject.toString()+"\n");
