@@ -78,21 +78,26 @@ public class TaskSocket {
 
 		@Override
 		public void run() {
+			
 			BufferedReader bReader = null;
 			BufferedWriter bWriter = null;
 			JSONObject jObject = null ;
+			String number = "";
 			try {
 				//获得通信套接字的输入流
 				bReader = new BufferedReader(new InputStreamReader(taskSocket.getInputStream()));
 				//获得通信套接字的输出流
 				bWriter = new BufferedWriter(new OutputStreamWriter(taskSocket.getOutputStream()));
+				//读取客户端传来的首个信息——用户账号
+				number = bReader.readLine();
+				//将任务模块的通信套接字存到Map中，对应关键字为客户端账号
+				OnlineSocket.onlineSockets.put(number, bWriter);
+				//socket不主动关闭，循环接收客户端发来的消息
 				while(this.isAlive()) {
 					//读取输入流的内容
 					String data = bReader.readLine();
 					//将读取到的内容转换为JSON对象
 					JSONObject jsonObject = JSONObject.fromObject(data);
-					//将任务模块的通信套接字存到Map中，对应关键字为客户端账号
-					OnlineSocket.onlineSockets.put(jsonObject.getString("number"), bWriter);
 					//客户端请求的操作是否成功的标识，默认不成功
 					boolean isSuccess = false ;
 					//获取JSON对象中handle对应的值，表示客户端请求的操作类型
@@ -110,16 +115,6 @@ public class TaskSocket {
 						isSuccess = taskService.add(jsonObject);
 						jObject = new JSONObject();
 						jObject.put("handle", "addTask");
-						jObject.put("uuid", jsonObject.getString("uuid"));
-						jObject.put("isSuccess", isSuccess);
-						bWriter.write(jObject.toString()+"\n");
-						bWriter.flush();
-						break;
-					//客户端给Team发任务
-					case "sendTask":
-						isSuccess = taskService.send(jsonObject);
-						jObject = new JSONObject();
-						jObject.put("handle", "sendTask");
 						jObject.put("uuid", jsonObject.getString("uuid"));
 						jObject.put("isSuccess", isSuccess);
 						bWriter.write(jObject.toString()+"\n");
@@ -154,6 +149,16 @@ public class TaskSocket {
 						bWriter.write(jObject.toString()+"\n");
 						bWriter.flush();
 						break;
+					//用户给Team发任务
+					case "sendTask":
+						isSuccess = teamService.send(jsonObject);
+						jObject = new JSONObject();
+						jObject.put("handle", "sendTask");
+						jObject.put("uuid", jsonObject.getString("uuid"));
+						jObject.put("isSuccess", isSuccess);
+						bWriter.write(jObject.toString()+"\n");
+						bWriter.flush();
+						break;
 					//新增Team	
 					case "addTeam":
 						isSuccess = teamService.add(jsonObject);
@@ -164,7 +169,7 @@ public class TaskSocket {
 						bWriter.write(jObject.toString()+"\n");
 						bWriter.flush();
 						break;
-					//修改Team信息	
+					//修改Team名
 					case "updateTeamName":
 						isSuccess = teamService.updateName(jsonObject);
 						jObject = new JSONObject();
@@ -189,6 +194,15 @@ public class TaskSocket {
 						jObject = teamService.findTeamById(jsonObject);
 						jObject.put("handle", "findTeam");
 						jObject.put("uuid", jsonObject.getString("uuid"));
+						bWriter.write(jObject.toString()+"\n");
+						bWriter.flush();
+						break;
+					//加入Team
+					case "joinTeam":
+						isSuccess = teamService.joinTeam(jsonObject);
+						jObject.put("handle", "joinTeam");
+						jObject.put("uuid", jsonObject.getString("uuid"));
+						jObject.put("isSuccess", isSuccess);
 						bWriter.write(jObject.toString()+"\n");
 						bWriter.flush();
 						break;
@@ -222,8 +236,18 @@ public class TaskSocket {
 				try {
 					bWriter.write(jObject.toString()+"\n");
 					bWriter.flush();
-				} catch (IOException e1) {
+				} catch (IOException e1) { //异常，说明客户端断开连接，即下线
 					e1.printStackTrace();
+					//将该账号从在线列表中移除
+					OnlineSocket.onlineSockets.remove(number,bWriter);
+					try {
+						bWriter.close();
+						taskSocket.close();
+					} catch (IOException e11) {
+						e11.printStackTrace();
+						new ServiceException("TaskSocket错误！");
+					}
+					return;
 				}
 			}
 		}

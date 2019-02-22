@@ -299,26 +299,6 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	
-	@Override
-	public boolean send(JSONObject jsonObject) throws ServiceException {
-		String receiverNumber = jsonObject.getString("receiverNumber");
-		if(receiverNumber != null) {
-			//获取接收者的套接字输出流
-			BufferedWriter bWriter = OnlineSocket.onlineSockets.get(receiverNumber);
-			try {
-				//将任务信息转发给该用户
-				bWriter.write(jsonObject.toString()+"\n");
-				bWriter.flush();
-				//将任务信息存到服务器数据库
-				if(this.add(jsonObject)) {
-					return true;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-				new ServiceException("TaskServiceImpl.send()出错！");
-			}
-		}
-		return false;
-	}
+	
 
 }

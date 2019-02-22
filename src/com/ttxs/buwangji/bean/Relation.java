@@ -14,8 +14,50 @@ public class Relation {
 	private String teamId;
 	private String nickName;
 	private int status;
+	private String createTime;
+	private String updateTime;
 	
 	
+	
+	
+	public Relation() {
+		super();
+	}
+	public Relation(String id, String userNumber, String teamId, String nickName, String createTime) {
+		super();
+		this.id = id;
+		this.userNumber = userNumber;
+		this.teamId = teamId;
+		this.nickName = nickName;
+		this.createTime = createTime;
+		this.status = 1;
+	}
+	
+	
+	/**
+	 * @return the createTime
+	 */
+	public String getCreateTime() {
+		return createTime;
+	}
+	/**
+	 * @param createTime the createTime to set
+	 */
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+	/**
+	 * @return the updateTime
+	 */
+	public String getUpdateTime() {
+		return updateTime;
+	}
+	/**
+	 * @param updateTime the updateTime to set
+	 */
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
 	/**
 	 * @return the id
 	 */

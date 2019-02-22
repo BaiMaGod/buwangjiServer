@@ -17,6 +17,7 @@ public interface TaskDao {
 	
 	/**
 	 * 通过ID查询任务
+	 * @param id
 	 * @return Task，任务对象
 	 */
 	Task findTaskById(String id);

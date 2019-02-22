@@ -7,6 +7,9 @@
     <select id="findRelationByNumber" parameterType="String" resultType="relationList">
         select * from relation where userNumber = #{number}
     </select>
+    <select id="findAllUserNumberById" parameterType="String" resultType="String">
+        select userNumber from relation where teamId = #{teamId} and status=1
+    </select>
     
     
     <insert id="add" parameterType="Relation" useGeneratedKeys="true" keyProperty="id">
@@ -15,7 +18,7 @@
     </insert>
     
     <update id="updateNickName" parameterType="Relation">
-    	update relation set nickName = #{nickName} where id=#{teamId}
+    	update relation set nickName = #{nickName} where userNumber=#{number} and teamId=#{teamId}
     </update>
     <update id="updateStatusRelationTo0" parameterType="Relation">
     	update relation set status = 0 where userNumber=#{number} and teamId=#{teamId}

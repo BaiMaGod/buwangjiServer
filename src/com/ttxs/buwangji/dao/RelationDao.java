@@ -7,6 +7,7 @@ package com.ttxs.buwangji.dao;
 import java.util.List;
 
 import com.ttxs.buwangji.bean.Relation;
+import com.ttxs.buwangji.bean.Team;
 
 /**
  * @author Administrator
@@ -14,6 +15,13 @@ import com.ttxs.buwangji.bean.Relation;
  */
 public interface RelationDao {
 
+	/**
+	 * 添加关系
+	 * @param team
+	 * @return
+	 */
+	int add(Relation relation);
+	
 	/**
 	 * 删除用户与Team的关系记录
 	 * @param number
@@ -59,6 +67,13 @@ public interface RelationDao {
 	 * @return
 	 */
 	List<Relation> findRelationByNumber(String number);
+
+	/**
+	 * 查询加入TeamId的所有用户账号
+	 * @param receiverTeamId
+	 * @return
+	 */
+	List<String> findAllUserNumberById(String teamId);
 
 
 

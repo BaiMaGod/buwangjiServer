@@ -29,19 +29,22 @@ public interface NoteService {
 	boolean update(JSONObject jsonObject)throws ServiceException;
 
 	/**
+	 * 笔记删除
+	 * @param jsonObject
+	 * @return
+	 */
+	boolean delete(JSONObject jsonObject)throws ServiceException;
+	
+	/**
 	 * 笔记同步操作
 	 * @param jsonObject
 	 * @return
 	 */
 	JSONObject sync(JSONObject jsonObject)throws ServiceException;
 
-	/**
-	 * @param jsonObject
-	 * @return
-	 */
-	boolean delete(JSONObject jsonObject)throws ServiceException;
 
 	/**
+	 * 查询笔记
 	 * @param jsonObject
 	 * @return
 	 */

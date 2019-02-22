@@ -20,6 +20,13 @@ public interface TeamService {
 	 * @return
 	 */
 	boolean add(JSONObject jsonObject)	throws ServiceException;
+	
+	/**
+	 * 删除Team
+	 * @param jsonObject
+	 * @return
+	 */
+	boolean delete(JSONObject jsonObject)throws ServiceException;
 
 	/**
 	 * 修改Team名
@@ -29,18 +36,26 @@ public interface TeamService {
 	boolean updateName(JSONObject jsonObject)throws ServiceException;
 
 	/**
-	 * 删除Team
+	 * 通过id查询单个Team记录
 	 * @param jsonObject
-	 * @return
-	 */
-	boolean delete(JSONObject jsonObject)throws ServiceException;
-
-	/**
-	 * 查询Team
-	 * @param jsonObject
-	 * @return
+	 * @return JSONObject
 	 */
 	JSONObject findTeamById(JSONObject jsonObject)throws ServiceException;
+	
+	/**
+	 * 通过账号查询所有加入的Team
+	 * @param jsonObject
+	 * @return JSONObject
+	 */
+	JSONObject findAllTeamByNumber(JSONObject jsonObject)throws ServiceException;
+	
+	
+	
+	/**
+	 * @param jsonObject
+	 * @return
+	 */
+	boolean joinTeam(JSONObject jsonObject);
 
 	/**
 	 * 退出Team
@@ -68,12 +83,13 @@ public interface TeamService {
 	 * @param jsonObject
 	 * @return
 	 */
-	JSONObject findAllTeamByNumber(JSONObject jsonObject)throws ServiceException;
+	boolean updateNickName(JSONObject jsonObject);
 
 	/**
+	 * 发送任务
 	 * @param jsonObject
-	 * @return
+	 * @return boolean值，是否操作成功
 	 */
-	boolean updateNickName(JSONObject jsonObject);
+	boolean send(JSONObject jsonObject)throws ServiceException;
 
 }

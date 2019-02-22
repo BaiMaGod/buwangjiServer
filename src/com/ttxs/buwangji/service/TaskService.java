@@ -34,12 +34,6 @@ public interface TaskService {
 	 */
 	JSONObject sync(JSONObject jsonObject)throws ServiceException;
 
-	/**
-	 * 发送任务
-	 * @param jsonObject
-	 * @return boolean值，是否操作成功
-	 */
-	boolean send(JSONObject jsonObject)throws ServiceException;
 
 	/**
 	 * 查询任务，包括了所有类别的查询

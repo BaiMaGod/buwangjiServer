@@ -96,7 +96,6 @@ public class NoteSocket {
 					jObject = noteService.findNote(jsonObject);
 					jObject.put("handle", "findNote");
 					jObject.put("uuid", jsonObject.getString("uuid"));
-					jObject.put("isSuccess", isSuccess);
 					bWriter.write(jObject.toString()+"\n");
 					bWriter.flush();
 					break;
@@ -135,7 +134,6 @@ public class NoteSocket {
 					jObject = noteService.sync(jsonObject);
 					jObject.put("handle", "sync");
 					jObject.put("uuid", jsonObject.getString("uuid"));
-					jObject.put("isSuccess", isSuccess);
 					bWriter.write(jObject.toString()+"\n");
 					bWriter.flush();
 					break;
@@ -144,7 +142,6 @@ public class NoteSocket {
 					jObject = groupService.findGroup(jsonObject);
 					jObject.put("handle", "findGroup");
 					jObject.put("uuid", jsonObject.getString("uuid"));
-					jObject.put("isSuccess", isSuccess);
 					bWriter.write(jObject.toString()+"\n");
 					bWriter.flush();
 					break;

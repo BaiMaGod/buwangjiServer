@@ -8,13 +8,13 @@
         select * from team where id = #{teamId}
     </select>
     <select id="findTeamByNumber" parameterType="String" resultType="teamList">
-        select  from team where userNumber = #{number}
+        select  from team where leaderNumber = #{number}
     </select>
     
     
     <insert id="add" parameterType="Team" useGeneratedKeys="true" keyProperty="id">
-    	insert into team(id,name,leaderNumber,createTime,updateTime) 
-    			  values(#{id},#{name},#{leaderNumber},#{createTime},#{loginTime})
+    	insert into team(id,name,leaderNumber,createTime) 
+    			  values(#{id},#{name},#{leaderNumber},#{createTime})
     </insert>
     <update id="updateName" parameterType="String">
     	update team set name = #{name} where id=#{teamId}
