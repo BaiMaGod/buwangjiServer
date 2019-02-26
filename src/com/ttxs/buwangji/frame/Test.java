@@ -44,7 +44,7 @@ public class Test {
 		try {
 			switch (i) {
 			case 1:
-				userSocket = new Socket("118.24.164.203", 8880);
+				userSocket = new Socket("172.27.0.11", 8880);
 				break;
 			case 2:
 				noteSocket = new Socket("118.24.164.203", 8883);

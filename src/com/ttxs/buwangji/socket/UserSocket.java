@@ -57,7 +57,7 @@ public class UserSocket {
 				try {
 					//接受客户端的连接请求
 					userSocket = userListenSocket.accept();
-					//System.out.println("一个客户端已上线");
+					System.out.println("一个客户端已连接...");
 					
 					if(userSocket != null){
 						//开启线程，处理该用户的具体请求
