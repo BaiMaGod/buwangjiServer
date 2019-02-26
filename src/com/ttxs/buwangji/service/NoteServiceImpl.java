@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Case;
 import org.apache.ibatis.session.SqlSession;
 
 import com.ttxs.buwangji.bean.Note;
@@ -47,33 +48,39 @@ public class NoteServiceImpl implements NoteService {
 		List<Note> noteList = new ArrayList<>();
 		Note note = null;
 		for (JSONObject jObject : list) {
+			String noteId = jObject.getString("noteId");
 			String userNumber = jObject.getString("userNumber");
+			String groupId = jObject.getString("groupId");
 			String title = jObject.getString("title");
 			String content = jObject.getString("content");
 			String createTime = jObject.getString("createTime");
 			String updateTime = jObject.getString("updateTime");
 			int status = jObject.getInt("status");
+			int isSync = jObject.getInt("isSync");
 			
 			String filePath = "F:\\com.buwangji.server\\Note\\"+userNumber+"\\"+createTime+".txt";
 			File file = new File(filePath);
 			try {
-				//覆盖原文件中的内容
+				//将笔记文件存到硬盘中
 				FileWriter fWriter = new FileWriter(file);
 				fWriter.write(content);
 				fWriter.flush();
 				fWriter.close();
 			} catch (IOException e) {
 				e.printStackTrace();
-				new ServiceException("TaskServiceImpl.update()出错！");
+				new ServiceException("TaskServiceImpl.add()出错！");
 			} 
 			
 			note = new Note();
+			note.setId(noteId);
 			note.setUserNumber(userNumber);
+			note.setGroupId(groupId);
 			note.setTitle(title);
 			note.setFilePath(filePath);
 			note.setCreateTime(createTime);
 			note.setUpdateTime(updateTime);
-			note.setStatus(status);			
+			note.setStatus(status);		
+			note.setIsSync(isSync);
 			noteList.add(note);
 		}
 		int num = noteDao.add(noteList);
@@ -94,12 +101,16 @@ public class NoteServiceImpl implements NoteService {
 		Note note = null;
 		for (JSONObject jObject : list) {
 			String id = jObject.getString("id");
+			String groupId = jObject.getString("groupId");
 			String title = jObject.getString("title");
 			String content = jObject.getString("content");
 			String updateTime = jObject.getString("updateTime");
 			
 			note = new Note();
 			note.setId(id);
+			if(groupId != null) {
+				note.setGroupId(groupId);
+			}
 			if(title != null){
 				note.setTitle(title);
 			}
@@ -108,7 +119,6 @@ public class NoteServiceImpl implements NoteService {
 			}
 			if(jObject.containsKey("status")) {
 				int status = jObject.getInt("status");
-				
 				note.setStatus(status);
 			}
 			if(content != null) {
@@ -282,6 +292,9 @@ public class NoteServiceImpl implements NoteService {
 				String groupId = jsonObject.getString("groupId");
 				notes = noteDao.findNoteByNumberAndGroup(number,groupId);
 				break;
+			case "title":
+				String title = jsonObject.getString("title");
+				notes = noteDao.findNoteByTitle("%%"+title+"%%");
 			default:
 				
 			}

@@ -4,19 +4,25 @@
 
 <mapper namespace="com.ttxs.buwangji.dao.NoteDao">
     
+    <select id="findFilePathById" parameterType="String" resultType="String">
+        select filePath from note where id = #{id}
+    </select>
     <select id="findNoteById" parameterType="String" resultType="Note">
         select * from note where id = #{id}
-    </select>
-    <select id="findNoteByName" parameterType="String" resultMap="noteList">
-        select * from note where name like #{name}
     </select>
     <select id="findStatusCodeByNumber" parameterType="String" resultType="HashMap">
         select id,status from note where number = #{number}
     </select>
     
     
+    <select id="findNoteByTitle" parameterType="String" resultMap="noteList">
+        select * from note where title like #{title}
+    </select>
     <select id="findAllNoteByNumber" parameterType="String" resultMap="noteList">
         select * from note where userNumber = #{number}
+    </select>
+    <select id="findNoteByNumberAndGroup" parameterType="String" resultMap="noteList">
+        select * from note where userNumber = #{number} and groupId = #{groupId}
     </select>
 
     

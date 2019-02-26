@@ -172,7 +172,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public boolean delete(JSONObject jsonObject) throws ServiceException {
-		JSONArray jsonArray = jsonObject.getJSONArray("noteIdList");
+		JSONArray jsonArray = jsonObject.getJSONArray("groupIdList");
 		if(jsonArray == null) {
 			return false;
 		}
@@ -196,17 +196,17 @@ public class GroupServiceImpl implements GroupService {
 			case "all":
 				groups = groupDao.findAllGroupByNumber(number);
 				break;
-			case "group":
-				String groupId = jsonObject.getString("groupId");
-				groups = groupDao.findGroupByNumberAndGroup(number,groupId);
-				break;
+//			case "group":
+//				String groupId = jsonObject.getString("groupId");
+//				groups = groupDao.findGroupByNumberAndGroup(number,groupId);
+//				break;
 			default:
 				
 			}
 		}
 		JSONArray jsonArray = Tools.ListToJsonArray(groups);
 		JSONObject jObject = new JSONObject();
-		jObject.put("noteList", jsonArray);
+		jObject.put("groupList", jsonArray);
 		
 		return jObject;
 	}
