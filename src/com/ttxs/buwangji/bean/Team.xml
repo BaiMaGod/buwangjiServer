@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ttxs.buwangji.dao.UserDao">
+<mapper namespace="com.ttxs.buwangji.dao.TeamDao">
     
     <select id="findTeamById" parameterType="String" resultType="Team">
         select * from team where id = #{teamId}
     </select>
-    <select id="findTeamByNumber" parameterType="String" resultType="teamList">
+    <select id="findTeamByNumber" parameterType="String" resultMap="teamList">
         select  from team where leaderNumber = #{number}
     </select>
     

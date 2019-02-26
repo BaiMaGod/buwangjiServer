@@ -86,6 +86,7 @@ public class ServerFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				 start();
 				lblNewLabel.setText("服务器已打开...");
+				System.out.println("服务器已打开...");
 			}
 		});
 		mnNewMenu.add(menuItem);

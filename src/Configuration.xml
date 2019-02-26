@@ -8,6 +8,8 @@
     	<typeAlias alias="Note" type="com.ttxs.buwangji.bean.Note"/> 
     	<typeAlias alias="Task" type="com.ttxs.buwangji.bean.Task"/> 
     	<typeAlias alias="Group" type="com.ttxs.buwangji.bean.Group"/> 
+    	<typeAlias alias="Relation" type="com.ttxs.buwangji.bean.Relation"/> 
+    	<typeAlias alias="Team" type="com.ttxs.buwangji.bean.Team"/> 
     </typeAliases> 
 
     <environments default="development">
@@ -27,5 +29,7 @@
         <mapper resource="com/ttxs/buwangji/bean/Note.xml"/>
         <mapper resource="com/ttxs/buwangji/bean/Task.xml"/>
         <mapper resource="com/ttxs/buwangji/bean/Group.xml"/>
+        <mapper resource="com/ttxs/buwangji/bean/Relation.xml"/>
+        <mapper resource="com/ttxs/buwangji/bean/Team.xml"/>
     </mappers>
 </configuration>
