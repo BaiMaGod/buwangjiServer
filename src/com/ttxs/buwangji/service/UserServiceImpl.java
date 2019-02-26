@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
 			User user = new User(Tools.getUUID(),name,number,Tools.md5(password),now,0);
 			
 			num = userDao.add(user);
+			session.commit();
 		}catch (Exception e) {
 			e.printStackTrace();
 			new ServiceException("UserServiceImpl.register·½·¨´íÎó£¡");

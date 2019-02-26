@@ -92,9 +92,9 @@ public class Test {
 		String handle = jObject.getString("handle");
 		String uuid2 = jObject.getString("uuid");
 		if (handle == null || !"register".equals(handle) || uuid2 == null || !uuid1.equals(uuid2)) {
-			System.out.println("接受到的消息格式错误，请重试!");
+			System.out.println("接收到的消息格式错误，请重试!");
 		}else {
-			boolean isSuccess = jObject.getBoolean("isSuccess");
+			boolean isSuccess = jObject.getBoolean("isassSuccess");
 			if(isSuccess) {
 				System.out.println("注册成功！");
 			}else {
@@ -133,7 +133,7 @@ public class Test {
 		//将读取到的内容转换为JSON对象
 		JSONObject jObject = JSONObject.fromObject(data);
 		
-		System.out.println("接受消息成功...");
+		System.out.println("接收消息成功...");
 		
 		bWriter.close();
 		bReader.close();
