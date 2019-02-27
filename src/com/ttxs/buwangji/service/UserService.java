@@ -13,7 +13,6 @@ import net.sf.json.JSONObject;
  *
  */
 public interface UserService {
-
 	/**
 	 * µÇÂ¼²Ù×÷
 	 * @param number
