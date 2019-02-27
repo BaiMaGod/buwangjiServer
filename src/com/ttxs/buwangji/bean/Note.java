@@ -5,7 +5,7 @@
 package com.ttxs.buwangji.bean;
 
 /**
- * @author Administrator
+ * @author yc
  *
  */
 public class Note {
@@ -22,7 +22,37 @@ public class Note {
 	private String arg2;
 	private String arg3;
 	
+
+	public Note() {
+		super();
+	}
 	
+	
+	
+	/**
+	 * @param id
+	 * @param userNumber
+	 * @param groupId
+	 * @param filePath
+	 * @param title
+	 * @param createTime
+	 * @param status
+	 * @param isSync
+	 */
+	public Note(String id, String userNumber, String groupId, String filePath, String title, String createTime,int status, int isSync) {
+		super();
+		this.id = id;
+		this.userNumber = userNumber;
+		this.groupId = groupId;
+		this.filePath = filePath;
+		this.title = title;
+		this.createTime = createTime;
+		this.status = status;
+		this.isSync = isSync;
+	}
+
+
+
 	/**
 	 * @return the id
 	 */

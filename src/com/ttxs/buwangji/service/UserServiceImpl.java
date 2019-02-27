@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
 			user.setPassword(" ");
 			String now = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 			userDao.updateLoginTime(number,now);
+			session.commit();
 			return JSONObject.fromObject(user);
 		}
 		return null;
@@ -96,6 +97,7 @@ public class UserServiceImpl implements UserService {
 				user.setTel(jsonObject.getString("tel"));
 			}
 			num = userDao.update(user);
+			session.commit();
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -120,6 +122,7 @@ public class UserServiceImpl implements UserService {
 		
 		String newNumber = jsonObject.getString("newNumber");
 		num = userDao.updateNumber(number,newNumber);
+		session.commit();
 		
 //			new ServiceException("UserServiceImpl.update·½·¨´íÎó£¡");
 		
@@ -141,6 +144,7 @@ public class UserServiceImpl implements UserService {
 			if(realPassword != null && password != null && realPassword.equals(Tools.md5(password))) {
 				String newPassword = jsonObject.getString("newPassword");
 				num = userDao.updatePassword(number,Tools.md5(newPassword));
+				session.commit();
 			}
 			
 			break;

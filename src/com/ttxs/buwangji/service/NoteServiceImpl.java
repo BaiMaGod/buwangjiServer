@@ -52,7 +52,7 @@ public class NoteServiceImpl implements NoteService {
 			String userNumber = jObject.getString("userNumber");
 			String groupId = jObject.getString("groupId");
 			String title = jObject.getString("title");
-			String content = jObject.getString("content");
+			String content = jObject.getString("filePath");
 			String createTime = jObject.getString("createTime");
 			String updateTime = jObject.getString("updateTime");
 			int status = jObject.getInt("status");
