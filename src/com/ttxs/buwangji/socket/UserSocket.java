@@ -25,7 +25,7 @@ import net.sf.json.JSONObject;
  */
 public class UserSocket {
 	//监听的端口号
-	public static final int PORT = 8880;
+	public static final int PORT = 28880;
 	/**
 	 * 监听用户 连接请求 的套接字
 	 */
@@ -100,7 +100,6 @@ public class UserSocket {
 					//将操作结果以json格式返回给客户端
 					jObject.put("handle", "login");
 					jObject.put("uuid", jsonObject.getString("uuid"));
-					jObject.put("isSuccess", isSuccess);
 					bWriter.write(jObject.toString()+"\n");
 					bWriter.flush();
 					break;

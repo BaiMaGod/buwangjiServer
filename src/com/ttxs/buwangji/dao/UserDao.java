@@ -6,6 +6,8 @@ package com.ttxs.buwangji.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ttxs.buwangji.bean.User;
 
 /**
@@ -26,9 +28,9 @@ public interface UserDao {
 	int update(User user);
 	int delete(String number);
 
-	void updateLoginTime(String number, String loginTime);
+	void updateLoginTime(@Param("number") String number, @Param("loginTime")String loginTime);
 
-	int updateNumber(String number, String newNumber);
+	int updateNumber(@Param("number")String number, @Param("newNumber")String newNumber);
 
-	int updatePassword(String number, String password);
+	int updatePassword(@Param("number")String number, @Param("password")String password);
 }
