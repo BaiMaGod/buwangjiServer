@@ -1,3 +1,4 @@
+
 /** 
 * @author  yc 
 * @parameter  
@@ -14,9 +15,7 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.tools.Tool;
 
-import com.mysql.cj.xdevapi.JsonArray;
 import com.ttxs.buwangji.bean.Note;
 import com.ttxs.buwangji.utils.Tools;
 
@@ -39,19 +38,19 @@ public class Test {
 		Test test = new Test();
 
 		test.connectTest(1);
-		test.registerTest();		//æˆåŠŸ
-//		test.loginTest();			//æˆåŠŸ
-//		test.updateTest();			//æˆåŠŸ
-//		test.updatePasswordTest();	//æˆåŠŸ
+		test.registerTest();		//³É¹¦
+//		test.loginTest();			//³É¹¦
+//		test.updateTest();			//³É¹¦
+//		test.updatePasswordTest();	//³É¹¦
 		
 		
 //		test.connectTest(2);
-//		test.findNoteTest();		//æˆåŠŸ
+//		test.findNoteTest();		//³É¹¦
 //		test.uploadNoteTest();
 	}
 	
 	/**
-	 * è¿æ¥æœåŠ¡å™¨æµ‹è¯•
+	 * Á¬½Ó·şÎñÆ÷²âÊÔ
 	 * @param socket
 	 * @param port
 	 */
@@ -72,12 +71,12 @@ public class Test {
 			}
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
-			System.out.println("æ‰¾ä¸åˆ°æœåŠ¡å™¨ï¼");
+			System.out.println("ÕÒ²»µ½·şÎñÆ÷£¡");
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("è¿æ¥å¤±è´¥ï¼");
+			System.out.println("Á¬½ÓÊ§°Ü£¡");
 		}
-		System.out.println("è¿æ¥æœåŠ¡å™¨æˆåŠŸ...");
+		System.out.println("Á¬½Ó·şÎñÆ÷³É¹¦...");
 	}
 	
 	/**
@@ -86,7 +85,7 @@ public class Test {
 	public void registerTest() {
 		String number = "111111111@qq.com";
 		String password = "123123123";
-		String name = "åºŠå‰æ˜æœˆå…‰";
+		String name = "´²Ç°Ã÷ÔÂ¹â";
 		String uuid1 = Tools.getUUID();
 		
 		JSONObject jsonObject = new JSONObject();
@@ -101,26 +100,26 @@ public class Test {
 			jObject = sendAndReceive(userSocket, jsonObject);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("æ³¨å†Œæ¶ˆæ¯å‘é€åˆ°æœåŠ¡å™¨å¤±è´¥ï¼");
+			System.out.println("×¢²áÏûÏ¢·¢ËÍµ½·şÎñÆ÷Ê§°Ü£¡");
 		}
 		
 		String handle = jObject.getString("handle");
 		String uuid2 = jObject.getString("uuid");
 		if (handle == null || !"register".equals(handle) || uuid2 == null || !uuid1.equals(uuid2)) {
-			System.out.println("æ¥æ”¶åˆ°çš„æ¶ˆæ¯æ ¼å¼é”™è¯¯ï¼Œè¯·é‡è¯•!");
+			System.out.println("½ÓÊÕµ½µÄÏûÏ¢¸ñÊ½´íÎó£¬ÇëÖØÊÔ!");
 		}else {
 			boolean isSuccess = jObject.getBoolean("isSuccess");
 			if(isSuccess) {
-				System.out.println("æ³¨å†ŒæˆåŠŸï¼");
+				System.out.println("×¢²á³É¹¦£¡");
 			}else {
-				System.out.println("æ³¨å†Œå¤±è´¥ï¼");
+				System.out.println("×¢²áÊ§°Ü£¡");
 			}
 		}
 		
 	}
 	
 	/**
-	 * ç”¨æˆ·ç™»å½•æµ‹è¯•
+	 * ÓÃ»§µÇÂ¼²âÊÔ
 	 */
 	public void loginTest() {
 		String number = "111111111@qq.com";
@@ -138,29 +137,29 @@ public class Test {
 			jObject = sendAndReceive(userSocket, jsonObject);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("æ³¨å†Œæ¶ˆæ¯å‘é€åˆ°æœåŠ¡å™¨å¤±è´¥ï¼");
+			System.out.println("×¢²áÏûÏ¢·¢ËÍµ½·şÎñÆ÷Ê§°Ü£¡");
 		}
 		
 		String handle = jObject.getString("handle");
 		String uuid2 = jObject.getString("uuid");
 		if (handle == null || !"login".equals(handle) || uuid2 == null || !uuid1.equals(uuid2)) {
-			System.out.println("æ¥æ”¶åˆ°çš„æ¶ˆæ¯æ ¼å¼é”™è¯¯ï¼Œè¯·é‡è¯•!");
+			System.out.println("½ÓÊÕµ½µÄÏûÏ¢¸ñÊ½´íÎó£¬ÇëÖØÊÔ!");
 		}else {
 			if(jObject.containsKey("name")) {
-				System.out.println("ç™»å½•æˆåŠŸï¼ç”¨æˆ·åï¼š"+jObject.getString("name"));
+				System.out.println("µÇÂ¼³É¹¦£¡ÓÃ»§Ãû£º"+jObject.getString("name"));
 			}else {
-				System.out.println("ç™»å½•å¤±è´¥ï¼");
+				System.out.println("µÇÂ¼Ê§°Ü£¡");
 			}
 		}
 		
 	}
 	
 	/**
-	 * ç”¨æˆ·ä¿®æ”¹ä¸ªäººä¿¡æ¯æµ‹è¯•
+	 * ÓÃ»§ĞŞ¸Ä¸öÈËĞÅÏ¢²âÊÔ
 	 */
 	public void updateTest() {
 		String number = "111111111@qq.com";
-		String name = "ç–‘æ˜¯åœ°ä¸Šéœœ";
+		String name = "ÒÉÊÇµØÉÏËª";
 		String uuid1 = Tools.getUUID();
 		
 		JSONObject jsonObject = new JSONObject();
@@ -174,26 +173,26 @@ public class Test {
 			jObject = sendAndReceive(userSocket, jsonObject);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("æ³¨å†Œæ¶ˆæ¯å‘é€åˆ°æœåŠ¡å™¨å¤±è´¥ï¼");
+			System.out.println("×¢²áÏûÏ¢·¢ËÍµ½·şÎñÆ÷Ê§°Ü£¡");
 		}
 		
 		String handle = jObject.getString("handle");
 		String uuid2 = jObject.getString("uuid");
 		if (handle == null || !"update".equals(handle) || uuid2 == null || !uuid1.equals(uuid2)) {
-			System.out.println("æ¥æ”¶åˆ°çš„æ¶ˆæ¯æ ¼å¼é”™è¯¯ï¼Œè¯·é‡è¯•!");
+			System.out.println("½ÓÊÕµ½µÄÏûÏ¢¸ñÊ½´íÎó£¬ÇëÖØÊÔ!");
 		}else {
 			boolean isSuccess = jObject.getBoolean("isSuccess");
 			if(isSuccess) {
-				System.out.println("ä¿®æ”¹ä¸ªäººä¿¡æ¯æˆåŠŸï¼");
+				System.out.println("ĞŞ¸Ä¸öÈËĞÅÏ¢³É¹¦£¡");
 			}else {
-				System.out.println("ä¿®æ”¹ä¸ªäººä¿¡æ¯å¤±è´¥ï¼");
+				System.out.println("ĞŞ¸Ä¸öÈËĞÅÏ¢Ê§°Ü£¡");
 			}
 		}
 		
 	}
 	
 	/**
-	 * ç”¨æˆ·ä¿®æ”¹å¯†ç æµ‹è¯•
+	 * ÓÃ»§ĞŞ¸ÄÃÜÂë²âÊÔ
 	 */
 	public void updatePasswordTest() {
 		String number = "111111111@qq.com";
@@ -215,26 +214,26 @@ public class Test {
 			jObject = sendAndReceive(userSocket, jsonObject);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("æ³¨å†Œæ¶ˆæ¯å‘é€åˆ°æœåŠ¡å™¨å¤±è´¥ï¼");
+			System.out.println("×¢²áÏûÏ¢·¢ËÍµ½·şÎñÆ÷Ê§°Ü£¡");
 		}
 		
 		String handle = jObject.getString("handle");
 		String uuid2 = jObject.getString("uuid");
 		if (handle == null || !"updatePassword".equals(handle) || uuid2 == null || !uuid1.equals(uuid2)) {
-			System.out.println("æ¥æ”¶åˆ°çš„æ¶ˆæ¯æ ¼å¼é”™è¯¯ï¼Œè¯·é‡è¯•!");
+			System.out.println("½ÓÊÕµ½µÄÏûÏ¢¸ñÊ½´íÎó£¬ÇëÖØÊÔ!");
 		}else {
 			boolean isSuccess = jObject.getBoolean("isSuccess");
 			if(isSuccess) {
-				System.out.println("ä¿®æ”¹å¯†ç æˆåŠŸï¼");
+				System.out.println("ĞŞ¸ÄÃÜÂë³É¹¦£¡");
 			}else {
-				System.out.println("ä¿®æ”¹å¯†ç å¤±è´¥ï¼");
+				System.out.println("ĞŞ¸ÄÃÜÂëÊ§°Ü£¡");
 			}
 		}
 		
 	}
 	
 	/**
-	 * ç¬”è®°æŸ¥è¯¢æµ‹è¯•
+	 * ±Ê¼Ç²éÑ¯²âÊÔ
 	 */
 	public void findNoteTest() {
 		String number = "111111111@qq.com";
@@ -252,43 +251,43 @@ public class Test {
 			jObject = sendAndReceive(noteSocket, jsonObject);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("æ³¨å†Œæ¶ˆæ¯å‘é€åˆ°æœåŠ¡å™¨å¤±è´¥ï¼");
+			System.out.println("×¢²áÏûÏ¢·¢ËÍµ½·şÎñÆ÷Ê§°Ü£¡");
 		}
 		
 		String handle = jObject.getString("handle");
 		String uuid2 = jObject.getString("uuid");
 		if (handle == null || !"findNote".equals(handle) || uuid2 == null || !uuid1.equals(uuid2)) {
-			System.out.println("æ¥æ”¶åˆ°çš„æ¶ˆæ¯æ ¼å¼é”™è¯¯ï¼Œè¯·é‡è¯•!");
+			System.out.println("½ÓÊÕµ½µÄÏûÏ¢¸ñÊ½´íÎó£¬ÇëÖØÊÔ!");
 		}else {
 			if(jObject.containsKey("noteList")) {
-				System.out.println("ç¬”è®°æŸ¥è¯¢æˆåŠŸï¼");
+				System.out.println("±Ê¼Ç²éÑ¯³É¹¦£¡");
 				JSONArray jsonArray = jObject.getJSONArray("noteList");
 				for (Object object : jsonArray) {
 					System.out.println(object);
 				}
 			}else {
-				System.out.println("ç¬”è®°æŸ¥è¯¢å¤±è´¥ï¼");
+				System.out.println("±Ê¼Ç²éÑ¯Ê§°Ü£¡");
 			}
 		}
 		
 	}
 	
 	/**
-	 * æ–°å¢ç¬”è®°ä¸Šä¼ æµ‹è¯•
+	 * ĞÂÔö±Ê¼ÇÉÏ´«²âÊÔ
 	 */
 	public void uploadNoteTest() {
 		String number = "111111111@qq.com";
 		String uuid1 = Tools.getUUID();
 		
 		JSONArray noteList = new JSONArray();
-		String content = "è¿™æ˜¯ä¸€ä¸ªç®€å•çš„æµ‹è¯•æ–‡ä»¶";
+		String content = "ÕâÊÇÒ»¸ö¼òµ¥µÄ²âÊÔÎÄ¼ş";
 		String nowTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
-		Note note = new Note(Tools.getUUID(),number,"0",content,"æµ‹è¯•ç¬”è®°",nowTime,1,1);
+		Note note = new Note(Tools.getUUID(),number,"0",content,"²âÊÔ±Ê¼Ç",nowTime,1,1);
 		JSONObject jsonObject2 = JSONObject.fromObject(note);
 		noteList.add(jsonObject2);
 		
 		note.setId(Tools.getUUID());
-		note.setTitle("ç¬¬2ä¸ªæµ‹è¯•ç¬”è®°");
+		note.setTitle("µÚ2¸ö²âÊÔ±Ê¼Ç");
 		jsonObject2 = JSONObject.fromObject(note);
 		noteList.add(jsonObject2);
 		
@@ -306,19 +305,19 @@ public class Test {
 			jObject = sendAndReceive(noteSocket, jsonObject);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("æ³¨å†Œæ¶ˆæ¯å‘é€åˆ°æœåŠ¡å™¨å¤±è´¥ï¼");
+			System.out.println("ÏûÏ¢·¢ËÍµ½·şÎñÆ÷Ê§°Ü£¡");
 		}
 		
 		String handle = jObject.getString("handle");
 		String uuid2 = jObject.getString("uuid");
 		if (handle == null || !"uploadNote".equals(handle) || uuid2 == null || !uuid1.equals(uuid2)) {
-			System.out.println("æ¥æ”¶åˆ°çš„æ¶ˆæ¯æ ¼å¼é”™è¯¯ï¼Œè¯·é‡è¯•!");
+			System.out.println("½ÓÊÕµ½µÄÏûÏ¢¸ñÊ½´íÎó£¬ÇëÖØÊÔ!");
 		}else {
 			boolean isSuccess = jObject.getBoolean("isSuccess");
 			if(isSuccess) {
-				System.out.println("æ–°å¢ç¬”è®°ä¸Šä¼ æˆåŠŸï¼");
+				System.out.println("ĞÂÔö±Ê¼ÇÉÏ´«³É¹¦£¡");
 			}else {
-				System.out.println("æ–°å¢ç¬”è®°ä¸Šä¼ å¤±è´¥ï¼");
+				System.out.println("ĞÂÔö±Ê¼ÇÉÏ´«Ê§°Ü£¡");
 			}
 		}
 		
@@ -327,35 +326,35 @@ public class Test {
 	
 	
 	/**
-	 * å‘é€ç»™æœåŠ¡å™¨æ¶ˆæ¯ï¼Œä»¥åŠæ¥æ”¶æœåŠ¡å™¨çš„åé¦ˆæ¶ˆæ¯
+	 * ·¢ËÍ¸ø·şÎñÆ÷ÏûÏ¢£¬ÒÔ¼°½ÓÊÕ·şÎñÆ÷µÄ·´À¡ÏûÏ¢
 	 * @param socket
 	 * @param jsonObject
 	 * @return
 	 * @throws IOException
 	 */
 	public JSONObject sendAndReceive(Socket socket,JSONObject jsonObject) throws IOException {
-		//è·å¾—é€šä¿¡å¥—æ¥å­—çš„è¾“å‡ºæµ
+		//»ñµÃÍ¨ĞÅÌ×½Ó×ÖµÄÊä³öÁ÷
 		bWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 		
-		System.out.println("è·å¾—è¾“å‡ºæµæˆåŠŸ...");
+		System.out.println("»ñµÃÊä³öÁ÷³É¹¦...");
 		
-		//å‘é€
+		///·¢ËÍ
 		bWriter.write(jsonObject.toString()+"\n");
 		bWriter.flush();
 		
-		System.out.println("å‘é€æ¶ˆæ¯æˆåŠŸ...");
+		System.out.println("·¢ËÍÏûÏ¢³É¹¦...");
 		
-		//è·å¾—é€šä¿¡å¥—æ¥å­—çš„è¾“å…¥æµ
+		//¶ÁÈ¡ÊäÈëÁ÷µÄÄÚÈİ
 		bReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		
-		System.out.println("è·å¾—è¾“å…¥æµæˆåŠŸ...");
+		System.out.println("»ñµÃÊäÈëÁ÷³É¹¦...");
 		
-		//è¯»å–è¾“å…¥æµçš„å†…å®¹
+		//¶ÁÈ¡ÊäÈëÁ÷µÄÄÚÈİ
 		String data = bReader.readLine();
-		//å°†è¯»å–åˆ°çš„å†…å®¹è½¬æ¢ä¸ºJSONå¯¹è±¡
+		//½«¶ÁÈ¡µ½µÄÄÚÈİ×ª»»ÎªJSON¶ÔÏó
 		JSONObject jObject = JSONObject.fromObject(data);
 		
-		System.out.println("æ¥æ”¶æ¶ˆæ¯æˆåŠŸ...");
+		System.out.println("½ÓÊÕÏûÏ¢³É¹¦...");
 		
 		bWriter.close();
 		bReader.close();
