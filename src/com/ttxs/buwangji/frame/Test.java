@@ -31,8 +31,9 @@ public class Test {
 	public static void main(String[] args)  {
 		Test test = new Test();
 		
-		test.connectTest(1);
-		test.registerTest();
+		test.connectTest(2);
+		//test.registerTest();
+		
 	}
 	
 	/**
@@ -44,13 +45,13 @@ public class Test {
 		try {
 			switch (i) {
 			case 1:
-				userSocket = new Socket("172.27.0.11", 8880);
+				userSocket = new Socket("172.27.0.11", 28880);
 				break;
 			case 2:
-				noteSocket = new Socket("118.24.164.203", 8883);
+				noteSocket = new Socket("118.24.164.203", 28883);
 				break;
 			case 3:
-				taskSocket = new Socket("118.24.164.203", 8886);
+				taskSocket = new Socket("118.24.164.203", 28886);
 				break;
 			default:
 				break;

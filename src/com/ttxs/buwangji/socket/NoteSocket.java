@@ -28,7 +28,7 @@ import net.sf.json.JSONObject;
  */
 public class NoteSocket {
 	//监听的端口号
-	public static final int PORT = 8883;
+	public static final int PORT = 28883;
 	/**
 	 * 监听用户 进行笔记操作 的套接字
 	 */

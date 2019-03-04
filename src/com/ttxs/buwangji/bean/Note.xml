@@ -28,11 +28,11 @@
     
     <insert id="add" parameterType="List" useGeneratedKeys="true" keyProperty="id">
     	insert into 
-    				note(id,userNumber,filePath,title,createTime,updateTime,status) 
+    				note(id,userNumber,groupId,filePath,title,createTime,status,isSync) 
     		values
     		<foreach collection="list" item="item" index="index" separator=",">
-    				(#{item.id},#{item.userNumber},#{item.filePath},#{item.title},
-    				#{item.createTime},#{item.updateTime},#{item.status})
+    				(#{item.id},#{item.userNumber},#{item.groupId},#{item.filePath},#{item.title},
+    				#{item.createTime},#{item.status},#{item.isSync})
     		</foreach>	  
     </insert>
     <update id="update" parameterType="List">

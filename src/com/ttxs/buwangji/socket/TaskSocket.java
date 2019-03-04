@@ -28,7 +28,7 @@ import net.sf.json.JSONObject;
  */
 public class TaskSocket {
 	//监听的端口号
-		public static final int PORT = 8886;
+		public static final int PORT = 28886;
 	/**
 	 * 监听用户 进行任务操作 的套接字
 	 */

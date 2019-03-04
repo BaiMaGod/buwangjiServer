@@ -9,7 +9,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,7 @@ import com.ttxs.buwangji.utils.Tools;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.util.NewBeanInstanceStrategy;
 
 /**
  * @author Administrator
@@ -48,19 +51,25 @@ public class NoteServiceImpl implements NoteService {
 		List<Note> noteList = new ArrayList<>();
 		Note note = null;
 		for (JSONObject jObject : list) {
-			String noteId = jObject.getString("noteId");
+			String noteId = jObject.getString("id");
 			String userNumber = jObject.getString("userNumber");
 			String groupId = jObject.getString("groupId");
 			String title = jObject.getString("title");
-			String content = jObject.getString("content");
+			String content = jObject.getString("filePath");
 			String createTime = jObject.getString("createTime");
-			String updateTime = jObject.getString("updateTime");
 			int status = jObject.getInt("status");
 			int isSync = jObject.getInt("isSync");
 			
-			String filePath = "F:\\com.buwangji.server\\Note\\"+userNumber+"\\"+createTime+".txt";
+			String nowTime = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss").format(new Date());
+			nowTime = nowTime.replace("-", "");
+			
+			String filePath = "F:\\com.buwangji.server\\Note\\"+userNumber;
 			File file = new File(filePath);
 			try {
+				file.mkdir();
+				file = new File(filePath+"\\"+nowTime+".txt");
+				file.createNewFile();
+			
 				//将笔记文件存到硬盘中
 				FileWriter fWriter = new FileWriter(file);
 				fWriter.write(content);
@@ -78,7 +87,6 @@ public class NoteServiceImpl implements NoteService {
 			note.setTitle(title);
 			note.setFilePath(filePath);
 			note.setCreateTime(createTime);
-			note.setUpdateTime(updateTime);
 			note.setStatus(status);		
 			note.setIsSync(isSync);
 			noteList.add(note);
