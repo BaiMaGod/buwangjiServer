@@ -60,13 +60,13 @@ public class Test {
 		try {
 			switch (i) {
 			case 1:
-				userSocket = new Socket("118.24.164.203", 28880);
+				userSocket = new Socket("148.70.0.26", 28880);
 				break;
 			case 2:
-				noteSocket = new Socket("118.24.164.203", 28883);
+				noteSocket = new Socket("148.70.0.26", 28883);
 				break;
 			case 3:
-				taskSocket = new Socket("118.24.164.203", 28886);
+				taskSocket = new Socket("148.70.0.26", 28886);
 				break;
 			default:
 				break;
