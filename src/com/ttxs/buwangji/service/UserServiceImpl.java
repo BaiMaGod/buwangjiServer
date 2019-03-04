@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
 			user.setPassword(" ");
 			String now = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 			userDao.updateLoginTime(number,now);
+			session.commit();
 			return JSONObject.fromObject(user);
 		}
 		return null;

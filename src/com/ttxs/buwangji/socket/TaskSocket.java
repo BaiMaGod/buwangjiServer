@@ -17,6 +17,8 @@ import com.ttxs.buwangji.service.TaskService;
 import com.ttxs.buwangji.service.TaskServiceImpl;
 import com.ttxs.buwangji.service.TeamService;
 import com.ttxs.buwangji.service.TeamServiceImpl;
+import com.ttxs.buwangji.service.UserService;
+import com.ttxs.buwangji.service.UserServiceImpl;
 
 import net.sf.json.JSONObject;
 
@@ -37,9 +39,10 @@ public class TaskSocket {
 	 * 任务操作过程的传输套接字
 	 */
 	private Socket taskSocket;
-	//
-	TaskService taskService = new TaskServiceImpl();
-	TeamService teamService = new TeamServiceImpl();
+	//创建用户服务类（业务层）对象
+	private UserService userService = new UserServiceImpl();
+	private TaskService taskService = new TaskServiceImpl();
+	private TeamService teamService = new TeamServiceImpl();
 	
 	public TaskSocket() {
 		try {
@@ -88,10 +91,6 @@ public class TaskSocket {
 				bReader = new BufferedReader(new InputStreamReader(taskSocket.getInputStream()));
 				//获得通信套接字的输出流
 				bWriter = new BufferedWriter(new OutputStreamWriter(taskSocket.getOutputStream()));
-				//读取客户端传来的首个信息——用户账号
-				number = bReader.readLine();
-				//将任务模块的通信套接字存到Map中，对应关键字为客户端账号
-				OnlineSocket.onlineSockets.put(number, bWriter);
 				//socket不主动关闭，循环接收客户端发来的消息
 				while(this.isAlive()) {
 					//读取输入流的内容
@@ -102,6 +101,66 @@ public class TaskSocket {
 					boolean isSuccess = false ;
 					//获取JSON对象中handle对应的值，表示客户端请求的操作类型
 					switch (jsonObject.getString("handle")) {
+					//登录操作
+					case "login":
+						jObject = userService.login(jsonObject);
+						//将操作结果以json格式返回给客户端
+						jObject.put("handle", "login");
+						jObject.put("uuid", jsonObject.getString("uuid"));
+						bWriter.write(jObject.toString()+"\n");
+						bWriter.flush();
+						if(jObject != null && jObject.containsKey("number")) {
+							//获取用户账号
+							number = jObject.getString("number");
+							if(OnlineSocket.onlineSockets.containsKey(number)){
+								OnlineSocket.onlineSockets.replace(number, bWriter);
+							}else {
+								//将任务模块的通信套接字存到Map中，对应关键字为客户端账号
+								OnlineSocket.onlineSockets.put(number, bWriter);
+								
+							}
+						}
+						break;
+					//注册操作
+					case "register":
+						isSuccess = userService.register(jsonObject);
+						jObject = new JSONObject();
+						jObject.put("handle", "register");
+						jObject.put("uuid", jsonObject.getString("uuid"));
+						jObject.put("isSuccess", isSuccess);
+						bWriter.write(jObject.toString()+"\n");
+						bWriter.flush();
+						break;
+					//修改个人基本信息操作
+					case "update":
+						isSuccess = userService.update(jsonObject);
+						jObject = new JSONObject();
+						jObject.put("handle", "update");
+						jObject.put("uuid", jsonObject.getString("uuid"));
+						jObject.put("isSuccess", isSuccess);
+						bWriter.write(jObject.toString()+"\n");
+						bWriter.flush();
+						break;
+					//修改个人帐号
+					case "updateNumber":
+						isSuccess = userService.updateNumber(jsonObject);
+						jObject = new JSONObject();
+						jObject.put("handle", "updateNumber");
+						jObject.put("uuid", jsonObject.getString("uuid"));
+						jObject.put("isSuccess", isSuccess);
+						bWriter.write(jObject.toString()+"\n");
+						bWriter.flush();
+						break;
+					//修改密码
+					case "updatePassword":
+						isSuccess = userService.updatePassword(jsonObject);
+						jObject = new JSONObject();
+						jObject.put("handle", "updatePassword");
+						jObject.put("uuid", jsonObject.getString("uuid"));
+						jObject.put("isSuccess", isSuccess);
+						bWriter.write(jObject.toString()+"\n");
+						bWriter.flush();
+						break;
 					//任务同步
 					case "sync":
 						jObject  = taskService.sync(jsonObject);
