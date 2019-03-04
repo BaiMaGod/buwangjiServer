@@ -60,6 +60,10 @@ public class UserServiceImpl implements UserService {
 				return false;
 			}
 			
+			if(userDao.findUserByNumber(number) != null) {
+				return false;
+			}
+			
 			String now = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 			User user = new User(Tools.getUUID(),name,number,Tools.md5(password),now,0);
 			
@@ -85,15 +89,15 @@ public class UserServiceImpl implements UserService {
 			user.setNumber(number);
 			
 			//用户要修改昵称
-			if(jsonObject.getString("name") !=null) {
+			if(jsonObject.containsKey("name") && jsonObject.getString("name") !=null) {
 				user.setName(jsonObject.getString("name"));
 			}
 			//用户要修改头像
-			if(jsonObject.getString("headImage") !=null) {
+			if(jsonObject.containsKey("headImage") && jsonObject.getString("headImage") !=null) {
 				user.setHeadImage(jsonObject.getString("headImage"));
 			}
 			//用户要修改电话号码
-			if(jsonObject.getString("tel") !=null) {
+			if(jsonObject.containsKey("tel") && jsonObject.getString("tel") !=null) {
 				user.setTel(jsonObject.getString("tel"));
 			}
 			num = userDao.update(user);

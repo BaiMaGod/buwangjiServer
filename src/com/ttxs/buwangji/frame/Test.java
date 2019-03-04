@@ -1,3 +1,4 @@
+
 /** 
 * @author  yc 
 * @parameter  
@@ -14,9 +15,7 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.tools.Tool;
 
-import com.mysql.cj.xdevapi.JsonArray;
 import com.ttxs.buwangji.bean.Note;
 import com.ttxs.buwangji.utils.Tools;
 
@@ -37,7 +36,7 @@ public class Test {
 	
 	public static void main(String[] args)  {
 		Test test = new Test();
-		
+
 		test.connectTest(1);
 		test.registerTest();		//成功
 //		test.loginTest();			//成功
@@ -48,7 +47,6 @@ public class Test {
 //		test.connectTest(2);
 //		test.findNoteTest();		//成功
 //		test.uploadNoteTest();
-		
 	}
 	
 	/**
@@ -82,7 +80,7 @@ public class Test {
 	}
 	
 	/**
-	 * 用户注册测试
+	 * 鐢ㄦ埛娉ㄥ唽娴嬭瘯
 	 */
 	public void registerTest() {
 		String number = "111111111@qq.com";
@@ -307,7 +305,7 @@ public class Test {
 			jObject = sendAndReceive(noteSocket, jsonObject);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("注册消息发送到服务器失败！");
+			System.out.println("消息发送到服务器失败！");
 		}
 		
 		String handle = jObject.getString("handle");
@@ -340,13 +338,13 @@ public class Test {
 		
 		System.out.println("获得输出流成功...");
 		
-		//发送
+		///发送
 		bWriter.write(jsonObject.toString()+"\n");
 		bWriter.flush();
 		
 		System.out.println("发送消息成功...");
 		
-		//获得通信套接字的输入流
+		//读取输入流的内容
 		bReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		
 		System.out.println("获得输入流成功...");
