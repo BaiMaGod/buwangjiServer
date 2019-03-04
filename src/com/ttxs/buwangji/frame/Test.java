@@ -39,8 +39,8 @@ public class Test {
 		Test test = new Test();
 		
 		test.connectTest(1);
-//		test.registerTest();		//成功
-		test.loginTest();			//成功
+		test.registerTest();		//成功
+//		test.loginTest();			//成功
 //		test.updateTest();			//成功
 //		test.updatePasswordTest();	//成功
 		
